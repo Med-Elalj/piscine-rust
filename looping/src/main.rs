@@ -14,7 +14,7 @@ I am essential to creation, and I surround every place. What am I?";
             .read_line(&mut user_input)
             .expect("Failed to read input");
 
-        let user_input = user_input.trim();
+        let user_input = user_input.trim().to_lowercase();
         attempts += 1;
 
         if user_input == correct_answer {
