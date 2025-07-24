@@ -21,5 +21,9 @@ I am essential to creation, and I surround every place. What am I?";
             println!("Number of trials: {}", attempts);
             break;
         }
+        if attempts > 100 {
+            println!("faild more than 100 trials: {}", user_input);
+            break;
+        }
     }
 }
