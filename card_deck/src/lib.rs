@@ -1,6 +1,6 @@
-use rand::Rng;
+use std::time::{SystemTime, UNIX_EPOCH};
 
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Suit {
     Heart,
     Diamond,
@@ -8,7 +8,7 @@ pub enum Suit {
     Club,
 }
 
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Rank {
     Ace,
     Number(u8),
@@ -16,11 +16,17 @@ pub enum Rank {
     Queen,
     Jack,
 }
+fn random() -> u64 {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("Time went backwards");
+    now.subsec_nanos() as u64 + now.as_secs()
+}
 
 impl Suit {
     pub fn random() -> Suit {
-        let value = rand::rng().random_range(1..=4);//.gen_range(1..=4);
-        Suit::translate(value)
+        let value: u8 = (random() % 4+1) as u8;
+        Suit::translate(value as u8)
     }
 
     pub fn translate(value: u8) -> Suit {
@@ -36,7 +42,7 @@ impl Suit {
 
 impl Rank {
     pub fn random() -> Rank {
-        let value = rand::rng().random_range(1..=13);
+        let value: u8 = (random() % 13+1) as u8;
         Rank::translate(value)
     }
 
@@ -52,6 +58,7 @@ impl Rank {
     }
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Card {
     pub suit: Suit,
     pub rank: Rank,
