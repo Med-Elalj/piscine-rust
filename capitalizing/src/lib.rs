@@ -1,14 +1,24 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+pub fn capitalize_first(input: &str) -> String {
+    let mut input = input.chars();
+    match input.next() {
+        None => String::new(),
+        Some(f) => f.to_uppercase().collect::<String>() + input.as_str(),
+    }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn title_case(input: &str) -> String {
+    input.split(" ").map(|w| {capitalize_first(w)}).collect::<Vec<String>>().join(" ")
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn change_case(input: &str) -> String {
+    input.chars().map(|c:char| {
+        if c.is_ascii_lowercase() {
+            c.to_ascii_uppercase()
+        } 
+        else if c.is_ascii_uppercase() {
+            c.to_ascii_lowercase()
+        } else {
+            c
+        }
+    }).collect::<String>()
 }
