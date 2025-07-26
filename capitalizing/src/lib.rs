@@ -7,7 +7,17 @@ pub fn capitalize_first(input: &str) -> String {
 }
 
 pub fn title_case(input: &str) -> String {
-    input.split(" ").map(|w| {capitalize_first(w)}).collect::<Vec<String>>().join(" ")
+    let mut tocap = true;
+    input.chars().map(|w:char| {
+        if tocap {
+            tocap = w.is_whitespace();
+            w.to_ascii_uppercase()
+        } else {
+            tocap = w.is_whitespace();
+            w
+        }
+    })
+    .collect::<String>()
 }
 
 pub fn change_case(input: &str) -> String {
