@@ -9,7 +9,7 @@ pub fn tic_tac_toe(table: [[char; 3]; 3]) -> String {
     }
     for c in chars.chars() {
         if diagonals(c, table) || horizontal(c, table) || vertical(c, table) {
-            return format!("Player {} Won", c);
+            return format!("player {} won", c);
         }
     }
     return "tie".to_string();
