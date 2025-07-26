@@ -1,14 +1,12 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn arrange_phrase(phrase: &str) -> String {
+    let words = phrase.split(' ');
+    let mut res: Vec<String> = vec![String::new(); words.clone().count()];
+    for ele in words {
+        if let Ok(a) = ele.chars().filter(|c| {c.is_numeric()}).collect::<String>().parse::<usize>()  {
+            if a-1 < res.len() {
+                res[a-1] = String::from(ele.chars().filter(|c| {!c.is_numeric()}).collect::<String>())
+            }
+        }
+    };
+    res.join(" ")
 }
