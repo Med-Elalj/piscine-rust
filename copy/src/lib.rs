@@ -1,6 +1,5 @@
 pub fn nbr_function(c: i32) -> (i32, f64, f64) {
-    // let mut c1:u32 = c.abs() as u32;
-    (c,(c.pow(c.abs() as u32) as f64),(c.abs()as f64).ln())
+    (c,((c as f64).powf(c.abs() as f64) as f64),(c.abs()as f64).ln())
 }
 
 pub fn str_function(a: String) -> (String, String) {
