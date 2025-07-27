@@ -12,10 +12,11 @@ pub fn mean(list: &[i32]) -> f64 {
 pub fn median(list: &[i32]) -> i32 {
     let mut x = list.to_vec();
     x.sort();
-    if x.len()%2==1 {
-        x[x.len()/2]
-    }else {
-        ( x[x.len()/2] + x[(x.len()/2)+1] )/2
+    let len = x.len();
+    if len % 2 == 1 {
+        x[len / 2]
+    } else {
+        (x[len / 2 - 1] + x[len / 2]) / 2
     }
 }
 
