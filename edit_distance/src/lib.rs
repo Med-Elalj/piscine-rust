@@ -30,9 +30,9 @@ pub fn edit_distance(source: &str, target: &str) -> usize {
 }
 
 fn min(a: usize,b: usize,c: usize) -> usize {
-    if c > b && c > a {
+    if c < b && c < a {
         c
-    } else if b > a {
+    } else if b < a {
         b
     } else {
         a
