@@ -1,14 +1,20 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use std::collections::HashMap;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn is_permutation(s1: &str, s2: &str) -> bool {
+    let mut map1: HashMap<char, u32> = HashMap::with_capacity(s1.len());
+    let mut map2: HashMap<char, u32> = HashMap::with_capacity(s2.len());
+    for ele in s1.chars() {
+        *( map1.entry(ele).or_insert(0))+=1;
     }
+    for ele in s2.chars() {
+        *( map2.entry(ele).or_insert(0))+=1;
+    }
+    for ele in map1.clone() {
+        if let Some(c) = map2.get(&ele.0) && *c == ele.1 {
+            continue;
+        }else {            
+            return false;
+        }
+    }
+    map1.len() == map2.len()
 }
