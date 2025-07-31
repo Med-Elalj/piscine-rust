@@ -1,3 +1,4 @@
+#[cfg(test)] mod tests;
 mod err;
 
 use crate::err::{ParseErr, ReadErr};
