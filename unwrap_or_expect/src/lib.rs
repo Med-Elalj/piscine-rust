@@ -18,7 +18,7 @@ pub fn fetch_data(server: Result<&str, &str>, security_level: Security) -> Strin
             panic!("{}", url);
         }
         (Err(msg), Security::Unknown) => {
-            Err::<&str, &str>(msg).unwrap()
+            Err::<&str, &str>(msg).unwrap().to_string()
         }
         (Err(_msg), Security::Message) => {
             panic!("ERROR: program stops");
