@@ -1,14 +1,36 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+pub enum Security {
+    Unknown,
+    Message,
+    Warning,
+    NotFound,
+    UnexpectedUrl,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn fetch_data(server: Result<&str, &str>, security_level: Security) -> String {
+    match (server, security_level) {
+        (Ok(url), Security::Unknown)
+        | (Ok(url), Security::Message)
+        | (Ok(url), Security::Warning)
+        | (Ok(url), Security::NotFound) => {
+            url.to_string()
+        }
+        (Ok(url), Security::UnexpectedUrl) => {
+            panic!("{}", url);
+        }
+        (Err(_msg), Security::Unknown) => {
+            panic!();
+        }
+        (Err(_msg), Security::Message) => {
+            panic!("ERROR: program stops");
+        }
+        (Err(_msg), Security::Warning) => {
+            "WARNING: check the server".to_string()
+        }
+        (Err(msg), Security::NotFound) => {
+            format!("Not found: {}", msg)
+        }
+        (Err(msg), Security::UnexpectedUrl) => {
+            msg.to_string()
+        }
     }
 }
