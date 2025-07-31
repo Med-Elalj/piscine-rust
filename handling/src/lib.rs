@@ -1,14 +1,14 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use std::fs::OpenOptions;
+use std::io::Write;
+use std::path::Path;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn open_or_create<P: AsRef<Path>>(path: &P, content: &str) {
+    let mut file = OpenOptions::new()
+        .append(true)
+        .create(true)
+        .open(path)
+        .expect("Failed to open or create file");
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+    file.write_all(content.as_bytes())
+        .expect("Failed to write to file");
 }
