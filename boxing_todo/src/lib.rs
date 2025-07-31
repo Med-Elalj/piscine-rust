@@ -1,6 +1,6 @@
 mod err;
 
-use err::{ParseErr, ReadErr};
+use crate::err::{ParseErr, ReadErr};
 
 use std::error::Error;
 use std::fs;
