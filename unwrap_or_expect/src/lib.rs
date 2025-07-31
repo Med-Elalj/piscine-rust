@@ -17,7 +17,7 @@ pub fn fetch_data(server: Result<&str, &str>, security_level: Security) -> Strin
         (Ok(url), Security::UnexpectedUrl) => {
             panic!("{}", url);
         }
-        (Err(_msg), Security::Unknown) => {
+        (Err(msg), Security::Unknown) => {
             Err::<&str, &str>(msg).unwrap()
         }
         (Err(_msg), Security::Message) => {
