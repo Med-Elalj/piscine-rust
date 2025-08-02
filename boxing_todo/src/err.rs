@@ -11,8 +11,11 @@ pub enum ParseErr {
 
 // required by error trait
 impl Display for ParseErr {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Fail to parse todo")
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ParseErr::Empty => write!(f, "Failed to parse todo file: empty input"),
+            ParseErr::Malformed(e) => write!(f, "Failed to parse todo file: malformed ({})", e),
+        }
     }
 }
 
