@@ -1,10 +1,9 @@
-#[cfg(test)] mod tests;
 mod err;
+use err::{ParseErr, ReadErr};
 
-use crate::err::{ParseErr, ReadErr};
-
-use std::error::Error;
-use std::fs;
+pub use json::{parse, stringify};
+pub use std::error::Error;
+use std::{fs::File, io::Read};
 
 #[derive(Debug, Eq, PartialEq)]
 pub struct Task {
@@ -21,45 +20,47 @@ pub struct TodoList {
 
 impl TodoList {
     pub fn get_todo(path: &str) -> Result<TodoList, Box<dyn Error>> {
-        let content = fs::read_to_string(path)
-            .map_err(|e| Box::new(ReadErr { child_err: Box::new(e) }) as Box<dyn Error>)?;
-
-        let parsed = json::parse(&content)
-            .map_err(|e| Box::new(ParseErr::Malformed(Box::new(e))) as Box<dyn Error>)?;
-
-        let title = parsed["title"]
+        let mut file = File::open(path).map_err(|e| {
+            Box::new(ReadErr {
+                child_err: Box::new(e),
+            }) as Box<dyn Error>
+        })?;
+        let mut s = String::new();
+        file.read_to_string(&mut s).map_err(|e| {
+            Box::new(ReadErr {
+                child_err: Box::new(e),
+            }) as Box<dyn Error>
+        })?;
+        if s.trim().is_empty() {
+            return Err(Box::new(ParseErr::Empty));
+        }
+        let parsed_json =
+            parse(&s).map_err(|e| Box::new(ParseErr::Malformed(Box::new(e)))) ?;
+        let title = parsed_json["title"]
             .as_str()
-            .ok_or_else(|| Box::new(ParseErr::Malformed("Missing or invalid title".into())))?;
+            .ok_or_else(|| Box::new(ParseErr::Empty))?
+            .to_string();
 
-        let tasks_json = parsed["tasks"]
-            .members()
-            .map(|task_json| {
-                let id = task_json["id"]
-                    .as_u32()
-                    .ok_or_else(|| "Invalid id field")?;
-                let description = task_json["description"]
-                    .as_str()
-                    .ok_or_else(|| "Invalid description field")?;
-                let level = task_json["level"]
-                    .as_u32()
-                    .ok_or_else(|| "Invalid level field")?;
-
-                Ok(Task {
-                    id,
-                    description: description.to_string(),
-                    level,
-                })
-            })
-            .collect::<Result<Vec<_>, _>>()
-            .map_err(|e: &str| Box::new(ParseErr::Malformed(Box::<dyn Error>::from(e.to_string()))) as Box<dyn Error>)?;
-
-        if tasks_json.is_empty() {
+        let mut tasks: Vec<Task> = Vec::new();
+        if parsed_json["tasks"].len() == 0 {
             return Err(Box::new(ParseErr::Empty));
         }
 
-        Ok(TodoList {
-            title: title.to_string(),
-            tasks: tasks_json,
-        })
+        for i in 0..parsed_json["tasks"].len() {
+            let task = Task {
+                id: parsed_json["tasks"][i]["id"]
+                    .as_u32()
+                    .ok_or(Box::new(ParseErr::Empty))?,
+                description: parsed_json["tasks"][i]["description"]
+                    .as_str()
+                    .ok_or_else(|| Box::new(ParseErr::Empty))?
+                    .to_string(),
+                level: parsed_json["tasks"][i]["level"]
+                    .as_u32()
+                    .ok_or_else(|| Box::new(ParseErr::Empty))?,
+            };
+            tasks.push(task)
+        }
+        Ok(TodoList { title, tasks })
     }
 }
