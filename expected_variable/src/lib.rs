@@ -1,4 +1,4 @@
-fn edit_distance(source: &str, target: &str) -> usize {
+pub fn edit_distance(source: &str, target: &str) -> usize {
     let len1 = source.chars().count();
     let len2 = target.chars().count();
     let mut dp = vec![vec![0; len2 + 1]; len1 + 1];
@@ -22,7 +22,7 @@ fn edit_distance(source: &str, target: &str) -> usize {
     }
     dp[len1][len2]
 }
-fn is_snake_case(s: &str) -> bool {
+pub fn is_snake_case(s: &str) -> bool {
     s.chars().all(|c| c.is_lowercase() || c == '_')
 }
 pub fn expected_variable(a: &str, b: &str) -> Option<String> {
