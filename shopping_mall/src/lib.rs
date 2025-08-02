@@ -12,20 +12,21 @@ pub fn biggest_store(mall: &Mall) -> (&String, &Store) {
 }
 
 
-pub fn highest_paid_employee(mall: &Mall) -> Vec<&Employee> {
+pub fn highest_paid_employee(mall: &Mall) -> Vec<(String, Employee)> {
     let employees = mall
         .floors
         .iter()
         .flat_map(|(_, floor)| floor.stores.iter())
         .flat_map(|(_, store)| store.employees.iter())
-        .map(|(_, employee)| employee);
+        .map(|(name, employee)| (name.clone(), employee.clone())); // clone to own data
 
-    let max_salary = employees.clone().map(|e| e.salary).fold(0.0, f64::max);
+    let max_salary = employees.clone().map(|(_, e)| e.salary).fold(0.0, f64::max);
 
     employees
-        .filter(|e| e.salary == max_salary)
+        .filter(|(_, e)| e.salary == max_salary)
         .collect()
 }
+
 
 pub fn nbr_of_employees(mall: &Mall) -> usize {
     mall.guards.len()
