@@ -14,16 +14,15 @@ pub fn biggest_store(mall: &Mall) -> (&str, &Store) {
 
 
 pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, &Employee)> {
-    vec![mall
+    mall
         .floors
         .iter()
         .flat_map(|(_, floor)| &floor.stores)
         .flat_map(|(_, store)| &store.employees)
-        .max_by_key(|store| (store.1.salary*10000.0) as isize)
-        .map(|(name, employee)| ((*name).as_str(), employee))
-        .unwrap()]
+        .max_by(|a, b| a.1.salary.partial_cmp(&b.1.salary).unwrap())
+        .map(|(name, employee)| vec![(name.as_str(), employee)])
+        .unwrap_or_default()
 }
-
 
 pub fn nbr_of_employees(mall: &Mall) -> usize {
     mall.guards.len()
