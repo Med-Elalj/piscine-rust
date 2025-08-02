@@ -1,5 +1,5 @@
-mod err;
-use crate::err::{ParseErr, ReadErr};
+pub mod err;
+use err::{ParseErr, ReadErr};
 
 pub use json::{parse, stringify};
 pub use std::error::Error;
