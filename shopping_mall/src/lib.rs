@@ -20,7 +20,6 @@ pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, &Employee)> {
         .max_by(|a, b| a.1.salary.total_cmp(&b.1.salary))
         .map(|(name, employee)| vec![(name.as_str(), employee)])
         .unwrap();
-    println!("---------------------------------------------------------------------------------------------------{:?}",res);
     while res.len() > 1 {
         res.pop();
     }
