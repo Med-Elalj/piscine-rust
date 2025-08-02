@@ -19,7 +19,7 @@ pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, &Employee)> {
         .iter()
         .flat_map(|(_, floor)| &floor.stores)
         .flat_map(|(_, store)| &store.employees)
-        .max_by_key(|store| (store.1.salary*100.0) as i64)
+        .max_by_key(|store| (store.1.salary*10000.0) as isize)
         .map(|(name, employee)| ((*name).as_str(), employee))
         .unwrap()]
 }
