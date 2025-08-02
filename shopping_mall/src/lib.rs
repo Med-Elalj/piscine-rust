@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 mod mall;
-pub use crate::mall::{Mall, Store, Employee, Guard, Floor};
+pub use mall::{Mall, Store, Employee, Guard, Floor};
 
 
 pub fn biggest_store(mall: &Mall) -> (String, Store) {
