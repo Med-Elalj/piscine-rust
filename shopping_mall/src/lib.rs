@@ -12,19 +12,16 @@ pub fn biggest_store(mall: &Mall) -> (&str, &Store) {
         .unwrap()
 }
 
-pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, &Employee)> {
-    let mut res = mall.floors
+pub fn highest_paid_employee(mall: &Mall) -> Vec<(&String, &Employee)>{
+    let mall_iter = mall
+        .floors
         .iter()
-        .flat_map(|(_, floor)| &floor.stores)
-        .flat_map(|(_, store)| &store.employees)
-        .max_by(|a, b| a.1.salary.total_cmp(&b.1.salary))
-        .map(|(name, employee)| vec![(name.as_str(), employee)])
-        .unwrap();
-    while res.len() > 1 {
-        res.pop();
-    }
-    res
+        .flat_map(|floor| &floor.1.stores)
+        .flat_map(|store| &store.1.employees);
+        // .map(|employee| employee.1);
 
+    let highest_slary = mall_iter.clone().fold(f64::MIN, |acc, x| acc.max(x.1.salary));
+    mall_iter.filter(|e| e.1.salary == highest_slary).collect::<Vec<_>>()
 }
 
 pub fn nbr_of_employees(mall: &Mall) -> usize {
