@@ -1,4 +1,4 @@
-use mobs::*;
+use ::mobs::*;
 
 fn main() {
     let boss1 = Boss::new("Don Vito", 65);
