@@ -3,28 +3,25 @@ use std::collections::HashMap;
 pub mod mall;
 pub use mall::*;
 
-pub fn biggest_store(mall: &Mall) -> (&String, &Store) {
+pub fn biggest_store(mall: &Mall) -> (&str, &Store) {
     mall.floors
         .iter()
-        .flat_map(|(_, floor)| floor.stores.iter())  // iter over (&String, &Store)
-        .max_by_key(|(_, store)| store.square_meters)
+        .flat_map(|(_, floor)| &(floor.stores))
+        .max_by_key(|store| store.1.square_meters)
+        .map(|(name, store)| ((*name).as_str(), store))
         .unwrap()
 }
 
 
-pub fn highest_paid_employee(mall: &Mall) -> Vec<(String, Employee)> {
-    let employees = mall
+pub fn highest_paid_employee(mall: &Mall) -> Vec<(&str, &Employee)> {
+    vec![mall
         .floors
         .iter()
-        .flat_map(|(_, floor)| floor.stores.iter())
-        .flat_map(|(_, store)| store.employees.iter())
-        .map(|(name, employee)| (name.clone(), employee.clone())); // clone to own data
-
-    let max_salary = employees.clone().map(|(_, e)| e.salary).fold(0.0, f64::max);
-
-    employees
-        .filter(|(_, e)| e.salary == max_salary)
-        .collect()
+        .flat_map(|(_, floor)| &floor.stores)
+        .flat_map(|(_, store)| &store.employees)
+        .max_by_key(|store| (store.1.salary*100.0) as i64)
+        .map(|(name, employee)| ((*name).as_str(), employee))
+        .unwrap()]
 }
 
 
