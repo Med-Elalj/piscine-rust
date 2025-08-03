@@ -11,7 +11,7 @@ pub fn spell(n: u64) -> String {
 
     let mut result = String::new();
 
-    if n > 1_000 {
+    if n >= 1_000 {
         result.push_str(&spell_hundreds(n / 1_000));
         
         result.push_str(" thousand");
@@ -67,6 +67,7 @@ fn tens(n: u64) -> &'static str {
 }
 
 fn spell_hundreds(n: u64) -> String {
+    println!("spell_hundreds(n: u64) {n}");
     if n < 20 {
         below_20(n).to_string()
     } else if n < 100 {
