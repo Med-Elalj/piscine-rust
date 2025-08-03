@@ -1,14 +1,17 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn scytale_cipher(message: &str, i: usize) -> String {
+    let mut res = String::with_capacity(message.len());
+    // message.push_str(" ".repeat(i - ma));
+    let message = message.chars().collect::<Vec<char>>();
+    let rows = (message.len() + i - 1) / i;
+    for idx in 0.. i {
+        for x in 0..rows {
+            let index = x * i + idx ;
+            if index < message.len() {
+                res.push(message[index]);
+            } else {
+                res.push(' ');
+            }
+        };
+    };
+    res
 }
