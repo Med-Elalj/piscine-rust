@@ -1,14 +1,21 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+pub fn talking(text: &str) -> &str {
+    // Trim whitespace for empty check
+    let trimmed = text.trim();
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+    if trimmed.is_empty() {
+        return "Just say something!";
+    }
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    let is_yelling = trimmed.chars().all(|c| !c.is_alphabetic() || c.is_alphabetic() && c.is_uppercase());
+    let is_question = trimmed.ends_with('?');
+
+    if is_yelling && is_question {
+        "Quiet, I am thinking!"
+    } else if is_yelling {
+        "There is no need to yell, calm down!"
+    } else if is_question {
+        "Sure."
+    } else {
+        "Interesting"
     }
 }
