@@ -27,17 +27,17 @@ impl GameSession {
         }
     }
 
-pub fn update_score(&mut self, user_name: &str) {
-    if !self.read_winner().is_some() {
-        if self.p1.0 == user_name {
-            self.p1.1 += 1;
-        } else if self.p2.0 == user_name {
-            self.p2.1 += 1;
+    pub fn update_score(&mut self, user_name: &str) {
+        if !self.read_winner().is_some() {
+            if self.p1.0 == user_name {
+                self.p1.1 += 1;
+            } else if self.p2.0 == user_name {
+                self.p2.1 += 1;
+            } else {
+                panic!("name not found {} in game {:?}", user_name, self);
+            }
         }
-    } else {
-        panic!("name not found {} in game {:?}", user_name, self);
     }
-}
 
     pub fn delete(self) -> String {
         format!("game deleted: id -> {}", self.id)
