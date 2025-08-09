@@ -17,15 +17,13 @@ impl GameSession {
     }
 
     pub fn read_winner(&self) -> Option<&(String, u32)> {
-        if u32::max(self.p1.1, self.p2.1) * 2 > self.nb_games
-        {
-            if self.p1.1 > self.p2.1 {
-                return Some(&self.p1);
-            } else {
-                return Some(&self.p2);
-            }
+        if self.p1.1 == self.p2.1 {
+            None
+        } else if self.p1.1 > self.p2.1 {
+            return Some(&self.p1);
+        } else {
+            return Some(&self.p2);
         }
-        None
     }
 
     pub fn update_score(&mut self, user_name: &str) {
