@@ -28,7 +28,9 @@ impl GameSession {
     }
 
 pub fn update_score(&mut self, user_name: &str) {
-    if self.read_winner().is_some() {
+    if self.read_winner().is_some()
+    ||  self.p1.1 + self.p2.1 >= self.nb_games
+    ||  (self.p1.0 != user_name && self.p2.0 != user_name) {
         return;
     }
 
@@ -36,8 +38,6 @@ pub fn update_score(&mut self, user_name: &str) {
         self.p1.1 += 1;
     } else if self.p2.0 == user_name {
         self.p2.1 += 1;
-    } else {
-        panic!("Name not found: '{}' in {:?} ", user_name,self);
     }
 }
 
