@@ -29,8 +29,7 @@ impl GameSession {
 
     pub fn update_score(&mut self, user_name: &str) {
         if !self.read_winner().is_some() 
-        && [self.p1.0.as_str(),self.p2.0.as_str()].contains(&user_name)
-        && self.p1.1 + self.p2.1 < self.nb_games
+        || self.p1.1 + self.p2.1 < self.nb_games
         {
             if self.p1.0 == user_name {
                 self.p1.1 += 1;
