@@ -7,7 +7,7 @@ fn main() {
 
     // initialize the tracker, with the max number of
     // called references as 10
-    let mut track = Tracker::new(10);
+    let track = Tracker::new(10);
 
     let _v = Rc::clone(&v); // |\
     let _v = Rc::clone(&v); // | -> increase the Rc to 4 references

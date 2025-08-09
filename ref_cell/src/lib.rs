@@ -2,29 +2,29 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 pub struct Tracker {
-    pub messages: Rc<RefCell<Vec<String>>>,
-    value: usize,
+    pub messages: RefCell<Vec<String>>,
+    value: RefCell<usize>,
     max: usize,
 }
 
 impl Tracker {
     pub fn new(max: usize) -> Self {
         Self {
-            messages: Rc::new(RefCell::new(Vec::new())),
-            value: 0,
+            messages: RefCell::new(vec![]),
+            value: RefCell::new(0),
             max,
         }
     }
 
-    pub fn set_value<T>(&mut self, val: &Rc<T>) {
+    pub fn set_value<T>(&self, val: &Rc<T>) {
         let count = Rc::strong_count(val);
         if count > self.max {
             self.messages
                 .borrow_mut()
                 .push("Error: You can't go over your quota!".to_string());
         } else {
-            self.value = count;
-            let percent = (self.value * 100) / self.max;
+            self.value.replace(count);
+            let percent = (count * 100) / self.max;
             if percent > 70 {
                 self.messages.borrow_mut().push(format!(
                     "Warning: You have used up over {}% of your quota!",
