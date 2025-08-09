@@ -37,7 +37,7 @@ pub fn update_score(&mut self, user_name: &str) {
     } else if self.p2.0 == user_name {
         self.p2.1 += 1;
     } else {
-        eprintln!("Name not found: '{}' in {:?} ", user_name,self);
+        panic!("Name not found: '{}' in {:?} ", user_name,self);
     }
 }
 
