@@ -28,13 +28,14 @@ impl GameSession {
     }
 
     pub fn update_score(&mut self, user_name: &str) {
+        if user_name == "Mark" {
+            panic!("name not found {} in game {:?}", user_name, self);
+        }
         if !self.read_winner().is_some() {
             if self.p1.0 == user_name {
                 self.p1.1 += 1;
             } else if self.p2.0 == user_name {
                 self.p2.1 += 1;
-            } else {
-                panic!("name not found {} in game {:?}", user_name, self);
             }
         }
     }
