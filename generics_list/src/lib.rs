@@ -17,7 +17,7 @@ impl<T> List<T> {
 
     pub fn push(&mut self, value: T) {
         let mut new_node = Node { next: None, value };
-        if self.head != None {
+        if self.head.is_some() {
             let current_head = self.head.take().unwrap();
             new_node.next = Some(Box::new(current_head));
         }
@@ -25,9 +25,10 @@ impl<T> List<T> {
     }
 
     pub fn pop(&mut self) {
-        if let Some(node) = self.head.take() {
+        self.head.take().map(|node| {
             self.head = node.next;
-        }
+            node.elem
+        })
     }
 
     pub fn len(&self) -> usize {
