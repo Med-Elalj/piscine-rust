@@ -10,12 +10,10 @@ pub struct Node<T> {
 }
 
 impl<T> List<T> {
-    /// Creates a new empty list
     pub fn new() -> List<T> {
         List { head: None }
     }
 
-    /// Pushes a value to the beginning of the list (LIFO)
     pub fn push(&mut self, value: T) {
         let new_node = Box::new(Node {
             value,
@@ -24,20 +22,18 @@ impl<T> List<T> {
         self.head = Some(new_node);
     }
 
-    /// Pops the value from the beginning of the list (LIFO)
     pub fn pop(&mut self) {
         if let Some(node) = self.head.take() {
             self.head = node.next;
         }
     }
 
-    /// Returns the number of elements in the list
     pub fn len(&self) -> usize {
         let mut count = 0;
-        let mut current = self.head.as_ref();
+        let mut current = &self.head;
         while let Some(node) = current {
             count += 1;
-            current = node.next.as_ref();
+            current = &node.next;
         }
         count
     }
