@@ -1,14 +1,44 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+#[derive(Clone, Debug)]
+pub struct List<T> {
+    pub head: Option<Box<Node<T>>>,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+#[derive(Clone, Debug)]
+pub struct Node<T> {
+    pub value: T,
+    pub next: Option<Box<Node<T>>>,
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+impl<T> List<T> {
+    /// Creates a new empty list
+    pub fn new() -> List<T> {
+        List { head: None }
+    }
+
+    /// Pushes a value to the beginning of the list (LIFO)
+    pub fn push(&mut self, value: T) {
+        let new_node = Box::new(Node {
+            value,
+            next: self.head.take(),
+        });
+        self.head = Some(new_node);
+    }
+
+    /// Pops the value from the beginning of the list (LIFO)
+    pub fn pop(&mut self) {
+        if let Some(node) = self.head.take() {
+            self.head = node.next;
+        }
+    }
+
+    /// Returns the number of elements in the list
+    pub fn len(&self) -> usize {
+        let mut count = 0;
+        let mut current = self.head.as_ref();
+        while let Some(node) = current {
+            count += 1;
+            current = node.next.as_ref();
+        }
+        count
     }
 }
