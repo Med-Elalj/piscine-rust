@@ -25,19 +25,22 @@ impl<T> List<T> {
     }
 
     pub fn pop(&mut self) {
-        self.head.take().map(|node| {
-            self.head = node.next;
-            node.elem
-        })
-    }
+        self.head.take().map(|head| self.head = head.next.map(|node| *node));}
 
     pub fn len(&self) -> usize {
-        let mut count = 0;
-        let mut current = &self.head;
-        while let Some(node) = current {
-            count += 1;
-            current = &node.next;
+        match &self.head {
+            None => 0,
+            Some(current) => {
+                let mut current = &current.next;
+                
+                let mut count = 1;
+                while let Some(node) = current {
+                    count += 1;
+                    current = &node.next;
+                }
+                
+                count
+            }
         }
-        count
     }
 }
