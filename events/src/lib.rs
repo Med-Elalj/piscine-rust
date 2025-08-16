@@ -1,7 +1,7 @@
 use chrono::Duration;
 use colored::*;
 use std::fmt;
-
+ 
 #[derive(Debug, Eq, PartialEq)]
 pub enum Position {
     Top,
