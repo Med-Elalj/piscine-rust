@@ -1,14 +1,14 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+#[derive(Debug, Clone)]
+pub struct Person<'a> {
+    pub name: &'a str,
+    pub age: u8,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+impl<'a> Person<'a> {
+    pub fn new(name: &str) -> Person<'_> {
+        Person {
+            name,
+            age: 0,
+        }
     }
 }
