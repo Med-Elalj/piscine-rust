@@ -1,14 +1,52 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+// Filename: lib.rs or step_iterator.rs
+
+use std::ops::Add;
+use std::cmp::PartialOrd;
+
+pub struct StepIterator<T> {
+    current: T,
+    end: T,
+    step: T,
+    done: bool,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+impl<T> StepIterator<T>
+where
+    T: Add<Output = T> + Copy + PartialOrd,
+{
+    pub fn new(beg: T, end: T, step: T) -> Self {
+        StepIterator {
+            current: beg,
+            end,
+            step,
+            done: false,
+        }
+    }
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+impl<T> Iterator for StepIterator<T>
+where
+    T: Add<Output = T> + Copy + PartialOrd,
+{
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.done {
+            return None;
+        }
+
+        if self.current > self.end {
+            self.done = true;
+            return None;
+        }
+
+        let result = self.current;
+        self.current = self.current + self.step;
+
+        if result == self.end || self.current > self.end {
+            self.done = true;
+        }
+
+        Some(result)
     }
 }
