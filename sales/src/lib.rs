@@ -30,7 +30,7 @@ impl Cart {
         }
         self.receipt.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
-        let discount: f32 = self.receipt[..=((self.receipt.len()-1 )/ 3)].iter().sum();
+        let discount: f32 = self.receipt[..((self.receipt.len() )/ 3)].iter().sum();
 
         let total: f32 = self.receipt.iter().sum();
 
