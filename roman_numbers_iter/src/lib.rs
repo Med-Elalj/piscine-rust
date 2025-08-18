@@ -1,5 +1,5 @@
 #[derive(Debug, Clone)]
-pub struct RomanNumber(Vec<char>);
+pub struct RomanNumber(pub Vec<char>);
 
 impl From<u32> for RomanNumber {
     fn from(mut num: u32) -> Self {
