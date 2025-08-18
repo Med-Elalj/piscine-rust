@@ -1,3 +1,47 @@
+use crate::RomanDigit::*;
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub enum RomanDigit {
+    Nulla,
+    I,
+    V,
+    X,
+    L,
+    C,
+    D,
+    M,
+}
+
+impl From<u32> for RomanDigit {
+    fn from(n: u32) -> Self {
+        match n {
+            1..=4 => I,
+            5..=9 => V,
+            10..=49 => X,
+            50..=99 => L,
+            100..=499 => C,
+            500..=999 => D,
+            1000..=5000 => M,
+            _ => Nulla,
+        }
+    }
+}
+
+impl From<RomanDigit> for u32 {
+    fn from(n: RomanDigit) -> Self {
+        match n {
+            I => 1,
+            V => 5,
+            X => 10,
+            L => 50,
+            C => 100,
+            D => 500,
+            M => 1000,
+            _ => 0,
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct RomanNumber(pub Vec<char>);
 
