@@ -30,14 +30,14 @@ impl Cart {
         }
         self.receipt.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
-        let discount = self.receipt[(self.receipt.len()-1 )/ 3];
+        let discount: f32 = self.receipt[..=((self.receipt.len()-1 )/ 3)].iter().sum();
 
         let total: f32 = self.receipt.iter().sum();
 
         self.receipt = self.receipt
             .iter()
             .map(|&price| {
-                let share = price / total;
+                let share:f32 = price / total;
                 ((price - (share * discount))* 100.0).round() / 100.0
             })
             .collect();
