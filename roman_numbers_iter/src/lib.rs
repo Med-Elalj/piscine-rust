@@ -1,11 +1,8 @@
-use std::fmt;
-
-#[derive(Clone)]
-pub struct RomanNumber(u32,pub Vec<char>);
+#[derive(Debug, Clone)]
+pub struct RomanNumber(Vec<char>);
 
 impl From<u32> for RomanNumber {
     fn from(mut num: u32) -> Self {
-        let azer = num;
         let mut result = Vec::new();
 
         // Tuples of (value, symbol) in descending order
@@ -42,7 +39,7 @@ impl From<u32> for RomanNumber {
             }
         }
 
-        RomanNumber(azer,result)
+        RomanNumber(result)
     }
 }
 
@@ -68,12 +65,34 @@ impl Iterator for RomanNumber {
 // You'll also need a method to convert from RomanNumber to integer:
 impl RomanNumber {
     fn to_integer(&self) -> u32 {
-        self.0
-    }
-}
+        let mut total = 0;
+        let mut prev_value = 0;
 
-impl fmt::Debug for RomanNumber {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:?}", self.1.iter())
+        // Map Roman numeral chars to their integer values
+        fn value(c: char) -> u32 {
+            match c {
+                'I' => 1,
+                'V' => 5,
+                'X' => 10,
+                'L' => 50,
+                'C' => 100,
+                'D' => 500,
+                'M' => 1000,
+                _ => 0, // Could handle invalid chars better
+            }
+        }
+
+        // Iterate from right to left
+        for &c in self.0.iter().rev() {
+            let curr_value = value(c);
+            if curr_value < prev_value {
+                total -= curr_value;
+            } else {
+                total += curr_value;
+            }
+            prev_value = curr_value;
+        }
+
+        total
     }
 }
