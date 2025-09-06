@@ -1,4 +1,4 @@
-use doubtful::*;
+use doubtful::doubtful;
 
 fn main() {
     let mut s = "Hello".to_owned();
