@@ -1,14 +1,17 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn initials(names: Vec<&str>) -> Vec<String> {
+    names.into_iter().map(|name| {
+            let mut res = String::new();
+            for w in name.split_whitespace() {
+                if let Some(c) = w.chars().next() {
+                    if !res.is_empty() {
+                        res.push(' ');
+                    }
+                    for uc in c.to_uppercase() {
+                        res.push(uc);
+                    }
+                    res.push('.');
+                }
+            }
+            res
+    }).collect()
 }
