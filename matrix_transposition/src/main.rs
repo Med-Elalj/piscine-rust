@@ -1,3 +1,7 @@
+use matrix_transposition::*;
+
 fn main() {
-    println!("Hello, world!");
+    let matrix = Matrix((1, 3), (4, 5));
+    println!("Original matrix {:?}", matrix);
+    println!("Transpose matrix {:?}", transpose(matrix));
 }
