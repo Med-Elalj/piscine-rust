@@ -1,14 +1,12 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+pub fn is_pangram(s: &str) -> bool {
+    let mut res = [false; 26]; // Track each letter a-z
+    let a = b'a';
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    for c in s.to_lowercase().bytes() {
+        if c >= a && c < a + 26 {
+            res[(c - a) as usize] = true;
+        }
     }
+
+    res.iter().all(|&x| x)
 }
