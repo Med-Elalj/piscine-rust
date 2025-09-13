@@ -1,5 +1,4 @@
-use ::mobs::*;
-use mobs::boss::Boss;
+use mobs::*;
 
 fn main() {
     let boss1 = Boss::new("Don Vito", 65);
@@ -18,11 +17,4 @@ fn main() {
 
     println!("{mob1:?}");
     println!("{mob2:?}");
-    println!("{:?}",member::Role::Underboss);
 }
-
-// use ::mobs::*;
-
-// fn main() {
-//     println!("{:?}",Mob::new());
-// }
