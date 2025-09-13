@@ -1,5 +1,8 @@
 use std::{collections::{HashMap, HashSet}, fmt::Debug};
 
+pub mod member;
+use member::Role;
+
 #[derive(Debug)]
 pub struct Mob {
     pub name: String,
@@ -23,14 +26,6 @@ impl Boss {
             age,
         }
     }
-}
-
-#[derive(Debug, PartialEq, Clone)]
-pub enum Role {
-    Underboss,
-    Caporegime,
-    Soldier,
-    Associate,
 }
 
 #[derive(Debug, PartialEq, Clone)]
