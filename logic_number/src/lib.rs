@@ -1,14 +1,8 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn number_logic(num: u32) -> bool {
+    let max: u32 = num.to_string().len() as u32;
+    let mut res = 0;
+    for x in 1..=max {
+        res += ((num % (10_u32.pow(x)))/10_u32.pow(x-1)).pow(max);
     }
+    res == num
 }
