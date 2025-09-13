@@ -2,7 +2,7 @@ use std::{collections::{HashMap, HashSet}, fmt::Debug};
 mod boss;
 pub use boss::Boss;
 mod member;
-pub use member::Member;
+pub use member::*;
 
 #[derive(Debug)]
 pub struct Mob {
