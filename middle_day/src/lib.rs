@@ -1,14 +1,20 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use chrono::{Datelike, NaiveDate, Weekday};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn middle_day(year: u32) -> Option<Weekday> {
+    let l = {
+        (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))
+    };
+    let d = if l { 366 } else { 365 };
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    if d % 2 == 0 {
+        return None;
     }
+
+    let md = (d + 1) / 2;
+
+    let fd = NaiveDate::from_ymd_opt(year as i32, 1, 1)?;
+
+    let res = fd.checked_add_signed(chrono::Duration::days((md - 1) as i64))?;
+
+    Some(res.weekday())
 }
