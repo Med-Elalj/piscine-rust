@@ -1,3 +1,5 @@
+use crate::member::Role;
+
 use std::collections::{HashMap, HashSet};
 
 mod mobs;
@@ -49,5 +51,9 @@ impl Mob {
         {
             self.cities.insert(wanted_city);
         }
+    }
+    #[allow(dead_code)]
+    fn hehe() {
+        println!("{:?}",Role::Soldier)
     }
 }
