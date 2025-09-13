@@ -1,14 +1,24 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+pub struct One {
+    pub first_layer: Option<Two>,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub struct Two {
+    pub second_layer: Option<Three>,
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub struct Three {
+    pub third_layer: Option<Four>,
+}
+
+pub struct Four {
+    pub fourth_layer: Option<u16>,
+}
+
+impl One {
+    pub fn get_fourth_layer(self) -> Option<u16> {
+        self.first_layer?
+            .second_layer?
+            .third_layer?
+            .fourth_layer
     }
 }
