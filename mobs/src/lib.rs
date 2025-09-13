@@ -2,6 +2,8 @@ mod mobs;
 use std::collections::{HashMap, HashSet};
 
 pub use crate::mobs::*;
+use crate::mobs::boss::Boss;
+use crate::mobs::member::Member;
 
 impl Mob {
     pub fn new(name: String, boss: Boss, wealth: u64) -> Self {

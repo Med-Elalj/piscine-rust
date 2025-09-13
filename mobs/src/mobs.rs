@@ -1,8 +1,8 @@
 use std::{collections::{HashMap, HashSet}, fmt::Debug};
-mod boss;
-pub use boss::Boss;
-mod member;
-pub use member::*;
+pub mod boss;
+use boss::Boss;
+pub mod member;
+use member::Member;
 
 #[derive(Debug)]
 pub struct Mob {
