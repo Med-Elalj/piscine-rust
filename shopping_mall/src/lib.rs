@@ -1,14 +1,72 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+use std::collections::HashMap;
+
+pub mod mall;
+pub use mall::*;
+
+pub fn biggest_store(mall: &Mall) -> (&str, &Store) {
+    mall.floors
+        .iter()
+        .flat_map(|(_, floor)| &(floor.stores))
+        .max_by_key(|store| store.1.square_meters)
+        .map(|(name, store)| ((*name).as_str(), store))
+        .unwrap()
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub fn highest_paid_employee(mall: &Mall) -> Vec<(&String, &Employee)>{
+    let mall_iter = mall
+        .floors
+        .iter()
+        .flat_map(|floor| &floor.1.stores)
+        .flat_map(|store| &store.1.employees);
+        // .map(|employee| employee.1);
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    let highest_slary = mall_iter.clone().fold(f64::MIN, |acc, x| acc.max(x.1.salary));
+    mall_iter.filter(|e| e.1.salary == highest_slary).collect::<Vec<_>>()
+}
+
+pub fn nbr_of_employees(mall: &Mall) -> usize {
+    mall.guards.len()
+        + mall
+            .floors
+            .values()
+            .flat_map(|floor| floor.stores.values())
+            .map(|store| store.employees.len())
+            .sum::<usize>()
+}
+
+pub fn check_for_securities(mall: &mut Mall, guards: HashMap<String, Guard>) {
+    let total_sqm: u64 = mall.floors.values().map(|floor| floor.size_limit).sum();
+
+    let required_guards = ((total_sqm as f64) / 200.0).ceil() as usize;
+    let current_guards = mall.guards.len();
+
+    let guards_needed = required_guards.saturating_sub(current_guards);
+
+    let mut available_guards = guards.into_iter();
+
+    for _ in 0..guards_needed {
+        if let Some((name, guard)) = available_guards.next() {
+            if !mall.guards.contains_key(&name) {
+                mall.hire_guard(name, guard);
+            }
+        } else {
+            break;
+        }
+    }
+}
+
+pub fn cut_or_raise(mall: &mut Mall) {
+    for floor in mall.floors.values_mut() {
+        for store in floor.stores.values_mut() {
+            for employee in store.employees.values_mut() {
+                let w_h = employee.working_hours.1 - employee.working_hours.0;
+                let change = employee.salary * 0.1;
+                if w_h >= 10 {
+                    employee.salary += change;
+                } else {
+                    employee.salary -= change;
+                }
+            }
+        }
     }
 }
