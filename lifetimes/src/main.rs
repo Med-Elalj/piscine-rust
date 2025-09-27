@@ -1,3 +1,6 @@
+use lifetimes::*;
+
 fn main() {
-    println!("Hello, world!");
+    let person = Person::new("Leo");
+    println!("Person = {:?}", person);
 }
