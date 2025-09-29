@@ -1,14 +1,34 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub struct Collatz {
+    pub v: u64,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+impl Collatz {
+    pub fn new(n: u64) -> Self {
+        Collatz { v: n }
     }
+}
+
+impl Iterator for Collatz {
+    type Item = Collatz;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.v == 0 || self.v == 1 {
+            return None;
+        }
+
+        let current = *self;
+
+        self.v = if self.v % 2 == 0 {
+            self.v / 2
+        } else {
+            self.v * 3 + 1
+        };
+
+        Some(current)
+    }
+}
+
+pub fn collatz(n: u64) -> usize {
+    Collatz::new(n).count()
 }
